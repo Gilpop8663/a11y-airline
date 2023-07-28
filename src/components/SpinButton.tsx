@@ -7,9 +7,11 @@ const SpinButton: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const increment = () => {
+    if (!inputRef.current) return;
+
     if (count === 3) {
-      inputRef.current?.setCustomValidity('최대 인원수는 3명까지 가능합니다');
-      inputRef.current?.reportValidity();
+      inputRef.current.setCustomValidity('최대 인원수는 3명까지 가능합니다');
+      inputRef.current.reportValidity();
       return;
     }
 
@@ -43,7 +45,6 @@ const SpinButton: React.FC = () => {
             className="helpIcon"
             onMouseEnter={toggleTooltip}
             onMouseLeave={toggleTooltip}
-            role="button"
           >
             ?
             {isTooltipVisible && (
@@ -67,7 +68,6 @@ const SpinButton: React.FC = () => {
           ref={inputRef}
           aria-label={`성인 승객 추가 ${count}`}
           type="text"
-          readOnly
           aria-disabled={count === 0 || count === 3}
           maxLength={3}
           className="spinButtonInput"
