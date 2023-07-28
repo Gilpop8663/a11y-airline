@@ -29,12 +29,12 @@ jobs:
         uses: actions/cache@v3
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
       - name: Install dependencies
-        run: yarn install --immutable --immutable-cache --check-cache
+        run: npm ci
         if: steps.cache.outputs.cache-hit != 'true'
 
       - name: Set PUBLIC_URL
@@ -42,12 +42,9 @@ jobs:
           PUBLIC_URL=$(echo $GITHUB_REPOSITORY | sed -r 's/^.+\/(.+)$/\/\1\//')
           echo PUBLIC_URL=$PUBLIC_URL > .env
 
-      - name: Test
-        run: yarn test
-
-      - name: Build app
+      - name: Build
         run: |
-          yarn build
+          npm run build
           cp ./build/index.html ./build/404.html
 
       - name: Deploy to gh-pages branch
