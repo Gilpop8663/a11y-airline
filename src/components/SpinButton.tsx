@@ -43,6 +43,7 @@ const SpinButton: React.FC = () => {
             className="helpIcon"
             onMouseEnter={toggleTooltip}
             onMouseLeave={toggleTooltip}
+            role="button"
           >
             ?
             {isTooltipVisible && (
