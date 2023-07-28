@@ -10,28 +10,38 @@ const SpinButton: React.FC = () => {
     if (!inputRef.current) return;
 
     if (count === 3) {
-      inputRef.current.setCustomValidity('최대 인원수는 3명까지 가능합니다');
-      inputRef.current.reportValidity();
+      announceMessage('최대 인원수는 3명까지 가능합니다');
       return;
     }
 
-    inputRef.current?.setCustomValidity('');
+    announceMessage(`성인 승객 추가 ${count + 1}`);
     setCount((prevCount) => prevCount + 1);
   };
 
   const decrement = () => {
     if (count === 0) {
-      inputRef.current?.setCustomValidity('최소 인원수는 0명까지 가능합니다');
-      inputRef.current?.reportValidity();
+      announceMessage('최소 인원수는 0명까지 가능합니다');
       return;
     }
 
-    inputRef.current?.setCustomValidity('');
+    announceMessage(`성인 승객 감소 ${count - 1}`);
     setCount((prevCount) => prevCount - 1);
   };
 
   const toggleTooltip = (event: MouseEvent<HTMLDivElement>) => {
     setIsTooltipVisible(!isTooltipVisible);
+  };
+
+  const announceMessage = (message: string) => {
+    const screenReaderElement = document.createElement('div');
+    screenReaderElement.setAttribute('aria-live', 'assertive');
+    screenReaderElement.setAttribute('aria-atomic', 'true');
+    screenReaderElement.innerText = message;
+    document.body.appendChild(screenReaderElement);
+    // 스크린 리더가 메시지를 읽은 후 해당 엘리먼트를 제거하여 화면에 보이지 않도록 함
+    setTimeout(function () {
+      document.body.removeChild(screenReaderElement);
+    }, 1000);
   };
 
   return (
@@ -66,8 +76,9 @@ const SpinButton: React.FC = () => {
         <input
           id="input-1"
           ref={inputRef}
-          aria-label={`성인 승객 추가 ${count}`}
+          aria-label={`성인 ${count}`}
           type="text"
+          readOnly
           aria-disabled={count === 0 || count === 3}
           maxLength={3}
           className="spinButtonInput"
