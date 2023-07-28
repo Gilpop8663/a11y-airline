@@ -1,17 +1,30 @@
-import React, { useState, MouseEvent } from 'react';
+import React, { useState, MouseEvent, useRef } from 'react';
 import './SpinButton.css';
 
 const SpinButton: React.FC = () => {
   const [count, setCount] = useState<number>(0);
   const [isTooltipVisible, setIsTooltipVisible] = useState<boolean>(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const increment = () => {
-    if (count === 3) return;
+    if (count === 3) {
+      inputRef.current?.setCustomValidity('최대 인원수는 3명까지 가능합니다');
+      inputRef.current?.checkValidity();
+      return;
+    }
+
+    inputRef.current?.setCustomValidity('');
     setCount((prevCount) => prevCount + 1);
   };
 
   const decrement = () => {
-    if (count === 0) return;
+    if (count === 0) {
+      inputRef.current?.setCustomValidity('최소 인원수는 0명까지 가능합니다');
+      inputRef.current?.checkValidity();
+      return;
+    }
+
+    inputRef.current?.setCustomValidity('');
     setCount((prevCount) => prevCount - 1);
   };
 
@@ -33,7 +46,9 @@ const SpinButton: React.FC = () => {
           >
             ?
             {isTooltipVisible && (
-              <span className="tooltip">최대 인원수는 3명까지 가능합니다</span>
+              <span tabIndex={0} className="tooltip">
+                최대 인원수는 3명까지 가능합니다
+              </span>
             )}
           </div>
         </div>
@@ -46,6 +61,7 @@ const SpinButton: React.FC = () => {
           -
         </button>
         <input
+          ref={inputRef}
           aria-label={`성인 ${count}`}
           type="text"
           readOnly
