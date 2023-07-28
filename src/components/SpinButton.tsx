@@ -57,12 +57,14 @@ const SpinButton: React.FC = () => {
           aria-label="성인 탑승자 한명 줄이기"
           onClick={decrement}
           className="spinButton"
+          aria-labelledby="input-1"
         >
           -
         </button>
         <input
+          id="input-1"
           ref={inputRef}
-          aria-label={`성인 ${count}`}
+          aria-label={`성인 승객 추가 ${count}`}
           type="text"
           readOnly
           aria-disabled={count === 0 || count === 3}
