@@ -19,6 +19,15 @@
   border-radius: 100%;
 }
 
+.spinButton[aria-disabled='true'] {
+  cursor: not-allowed;
+  background-color: #f3f3f3;
+}
+.spinButton[aria-disabled='true']:hover {
+  cursor: not-allowed;
+  background-color: #f3f3f3;
+}
+
 .spinButton:hover {
   background-color: #f3f3f3;
 }
@@ -67,5 +76,7 @@
 }
 
 .screen-reader {
-  display: none;
+  position: fixed;
+  overflow: hidden;
+  bottom: -100vh;
 }

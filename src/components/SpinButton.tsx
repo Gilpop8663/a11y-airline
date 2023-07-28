@@ -1,7 +1,17 @@
 import React, { useState, MouseEvent, useRef } from 'react';
 import './SpinButton.css';
 
-const SpinButton: React.FC = () => {
+const CUSTOMER_KIND = {
+  adult: '성인',
+  infant: '소아',
+  baby: '유아',
+};
+
+interface SpinButtonProps {
+  kind: 'adult' | 'infant' | 'baby';
+}
+
+const SpinButton = ({ kind }: SpinButtonProps) => {
   const [count, setCount] = useState<number>(0);
   const [isTooltipVisible, setIsTooltipVisible] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -14,7 +24,7 @@ const SpinButton: React.FC = () => {
       return;
     }
 
-    announceMessage(`성인 승객 추가 ${count + 1}`);
+    announceMessage(`${CUSTOMER_KIND[kind]} 승객 추가 ${count + 1}`);
     setCount((prevCount) => prevCount + 1);
   };
 
@@ -24,7 +34,7 @@ const SpinButton: React.FC = () => {
       return;
     }
 
-    announceMessage(`성인 승객 감소 ${count - 1}`);
+    announceMessage(`${CUSTOMER_KIND[kind]} 승객 감소 ${count - 1}`);
     setCount((prevCount) => prevCount - 1);
   };
 
@@ -48,9 +58,8 @@ const SpinButton: React.FC = () => {
   return (
     <section className="spinButtonContainer">
       <div>
-        <h1>승객 선택</h1>
         <div className="spinButtonLabel">
-          <label>성인</label>
+          <label>{CUSTOMER_KIND[kind]}</label>
           <div
             tabIndex={0}
             role="button"
@@ -66,16 +75,17 @@ const SpinButton: React.FC = () => {
           </div>
         </div>
         <button
-          aria-label="성인 탑승자 한명 줄이기"
+          aria-label={`${CUSTOMER_KIND[kind]} 탑승자 한 명 줄이기`}
           type="button"
           onClick={decrement}
           className="spinButton"
+          aria-disabled={count === 0}
         >
           -
         </button>
         <input
           ref={inputRef}
-          aria-label={`성인 탑승자 ${count}`}
+          aria-label={`${CUSTOMER_KIND[kind]} 탑승자 ${count}`}
           type="text"
           readOnly
           maxLength={3}
@@ -83,10 +93,11 @@ const SpinButton: React.FC = () => {
           value={count}
         />
         <button
-          aria-label="성인 탑승자 한명 늘리기"
+          aria-label={`${CUSTOMER_KIND[kind]} 탑승자 한 명 늘리기`}
           type="button"
           onClick={increment}
           className="spinButton"
+          aria-disabled={count === 3}
         >
           +
         </button>
