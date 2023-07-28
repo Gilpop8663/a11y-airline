@@ -36,6 +36,7 @@ const SpinButton: React.FC = () => {
     const screenReaderElement = document.createElement('div');
     screenReaderElement.setAttribute('aria-live', 'assertive');
     screenReaderElement.setAttribute('aria-atomic', 'true');
+    screenReaderElement.classList.add('screen-reader');
     screenReaderElement.innerText = message;
     document.body.appendChild(screenReaderElement);
     // 스크린 리더가 메시지를 읽은 후 해당 엘리먼트를 제거하여 화면에 보이지 않도록 함
@@ -51,35 +52,32 @@ const SpinButton: React.FC = () => {
         <div className="spinButtonLabel">
           <label>성인</label>
           <div
-            aria-label="승객 옵션 정보"
+            tabIndex={0}
+            role="button"
+            aria-label="최대 인원수는 3명까지 가능합니다"
             className="helpIcon"
             onMouseEnter={toggleTooltip}
             onMouseLeave={toggleTooltip}
           >
             ?
             {isTooltipVisible && (
-              <span tabIndex={0} className="tooltip">
-                최대 인원수는 3명까지 가능합니다
-              </span>
+              <span className="tooltip">최대 인원수는 3명까지 가능합니다</span>
             )}
           </div>
         </div>
         <button
-          type="button"
           aria-label="성인 탑승자 한명 줄이기"
+          type="button"
           onClick={decrement}
           className="spinButton"
-          aria-labelledby="input-1"
         >
           -
         </button>
         <input
-          id="input-1"
           ref={inputRef}
-          aria-label={`성인 ${count}`}
+          aria-label={`성인 탑승자 ${count}`}
           type="text"
           readOnly
-          aria-disabled={count === 0 || count === 3}
           maxLength={3}
           className="spinButtonInput"
           value={count}
