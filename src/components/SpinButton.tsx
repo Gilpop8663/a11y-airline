@@ -9,7 +9,7 @@ const SpinButton: React.FC = () => {
   const increment = () => {
     if (count === 3) {
       inputRef.current?.setCustomValidity('최대 인원수는 3명까지 가능합니다');
-      inputRef.current?.checkValidity();
+      inputRef.current?.reportValidity();
       return;
     }
 
@@ -20,7 +20,7 @@ const SpinButton: React.FC = () => {
   const decrement = () => {
     if (count === 0) {
       inputRef.current?.setCustomValidity('최소 인원수는 0명까지 가능합니다');
-      inputRef.current?.checkValidity();
+      inputRef.current?.reportValidity();
       return;
     }
 
@@ -65,6 +65,7 @@ const SpinButton: React.FC = () => {
           aria-label={`성인 ${count}`}
           type="text"
           readOnly
+          aria-disabled={count === 0 || count === 3}
           maxLength={3}
           className="spinButtonInput"
           value={count}
