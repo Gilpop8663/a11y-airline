@@ -1,5 +1,5 @@
-import React, { useState, MouseEvent } from "react";
-import "./SpinButton.css";
+import React, { useState, MouseEvent } from 'react';
+import './SpinButton.css';
 
 const SpinButton: React.FC = () => {
   const [count, setCount] = useState<number>(0);
@@ -24,6 +24,7 @@ const SpinButton: React.FC = () => {
         <div className="spinButtonLabel">
           <label>성인</label>
           <div
+            aria-label="승객 옵션 정보"
             className="helpIcon"
             onMouseEnter={toggleTooltip}
             onMouseLeave={toggleTooltip}
@@ -34,17 +35,28 @@ const SpinButton: React.FC = () => {
             )}
           </div>
         </div>
-        <button onClick={decrement} className="spinButton">
+        <button
+          type="button"
+          aria-label="성인 탑승자 한명 줄이기 버튼"
+          onClick={decrement}
+          className="spinButton"
+        >
           -
         </button>
         <input
+          aria-label="성인 탑승자 한명 줄이기 버튼"
           type="text"
           role="spinbutton"
           readOnly
           className="spinButtonInput"
           value={count}
         />
-        <button onClick={increment} className="spinButton">
+        <button
+          aria-label="성인 탑승자 한명 늘리기 버튼"
+          type="button"
+          onClick={increment}
+          className="spinButton"
+        >
           +
         </button>
       </div>
