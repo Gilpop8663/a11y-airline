@@ -6,10 +6,12 @@ const SpinButton: React.FC = () => {
   const [isTooltipVisible, setIsTooltipVisible] = useState<boolean>(false);
 
   const increment = () => {
+    if (count === 3) return;
     setCount((prevCount) => prevCount + 1);
   };
 
   const decrement = () => {
+    if (count === 0) return;
     setCount((prevCount) => prevCount - 1);
   };
 
@@ -44,10 +46,11 @@ const SpinButton: React.FC = () => {
           -
         </button>
         <input
-          aria-label="성인 탑승자 한명 줄이기 버튼"
+          aria-label={`성인 ${count}`}
           type="text"
           role="spinbutton"
           readOnly
+          maxLength={3}
           className="spinButtonInput"
           value={count}
         />
